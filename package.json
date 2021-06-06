@@ -1,0 +1,90 @@
+{
+  "name": "node-express-typescript-bp",
+  "description": "Boilerplate based on Node.js, Express, TypeScript, Sequelize",
+  "version": "0.0.1",
+  "author": "Edgar Sargsyan",
+  "repository": "https://github.com/cyber-eternal/express-typescript-boilerplate",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rm -rf ./dist && mkdir dist",
+    "build": "yarn prebuild && tsc",
+    "start": "yarn build && NODE_PATH=./dist node ./src/bin/www",
+    "dev": "NODE_PATH=./dist nodemon -e ts,js -w src --exec 'tsc --sourceMap && node --inspect ./src/bin/www'",
+    "test": "jest",
+    "lint:ts": "eslint \"src/**/*.{ts,js,json}\"",
+    "lint:dotenv": "dotenv-linter --warn",
+    "lint": "yarn lint:ts",
+    "check": "yarn lint:dotenv",
+    "test:unit": "jest \\.spec\\.ts?$",
+    "test:comp": "jest \\.test\\.ts?$",
+    "test:watch": "jest --watch --notify",
+    "test:cover": "node ./tools/test-cover.js",
+    "create:migration": "sequelize migration:generate --models-path src/data/models --migrations-path src/data/migrations --name",
+    "create:seed": "sequelize seed:generate --models-path src/data/models --seeders-path src/data/seeders --name",
+    "db:migrate": "yarn build && yarn db:migrate:no-build",
+    "db:migrate:no-build": "cross-env NODE_PATH=./dist sequelize db:migrate",
+    "db:migrate:no-build:docker": "cross-env NODE_PATH=./ sequelize db:migrate",
+    "db:seed": "yarn build && yarn db:seed:no-build",
+    "db:seed:no-build": "cross-env NODE_PATH=./dist sequelize db:seed:all",
+    "db:seed:no-build:docker": "cross-env NODE_PATH=./ sequelize db:seed:all"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix"
+    ],
+    ".env*": [
+      "yarn lint:dotenv"
+    ]
+  },
+  "dependencies": {
+    "@types/bunyan": "^1.8.6",
+    "body-parser": "1.19.0",
+    "bunyan": "^1.8.15",
+    "cookie-parser": "1.4.5",
+    "cross-env": "7.0.3",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "express-validation": "3.0.6",
+    "iconv-lite": "0.6.2",
+    "joi": "^17.4.0",
+    "lodash.uniqby": "4.7.0",
+    "mariadb": "2.5.2",
+    "moment-timezone": "0.5.33",
+    "mysql2": "2.2.5",
+    "sequelize": "6.3.5",
+    "sequelize-cli": "6.2.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "1.19.0",
+    "@types/dotenv": "8.2.0",
+    "@types/express-serve-static-core": "4.17.12",
+    "@types/express-session": "1.17.0",
+    "@types/jest": "26.0.13",
+    "@types/node": "14.6.4",
+    "@types/supertest": "2.0.10",
+    "@types/validator": "13.1.1",
+    "@typescript-eslint/eslint-plugin": "4.1.0",
+    "@typescript-eslint/parser": "4.1.0",
+    "eslint": "7.8.1",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-json": "2.1.2",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-security": "1.4.0",
+    "husky": "4.3.0",
+    "jest": "26.4.2",
+    "lint-staged": "10.3.0",
+    "node-mocks-http": "1.9.0",
+    "nodemon": "2.0.4",
+    "open-cli": "6.0.1",
+    "prettier": "2.1.1",
+    "supertest": "4.0.2",
+    "ts-jest": "26.3.0",
+    "typescript": "4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn audit"
+    }
+  }
+}

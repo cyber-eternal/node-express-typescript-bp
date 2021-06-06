@@ -1,0 +1,11 @@
+const path = require('path');
+const fs = require('fs');
+
+const root = fs.existsSync('dist') ? 'dist/data' : 'data';
+
+module.exports = {
+  'config': path.resolve(root, 'config'),
+  'models-path': path.resolve(root, 'models'),
+  'seeders-path': path.resolve(root, 'seeders'),
+  'migrations-path': path.resolve(root, 'migrations')
+};

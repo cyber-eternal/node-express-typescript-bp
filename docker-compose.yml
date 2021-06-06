@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  server:
+    build:
+     context: .
+    ports:
+      - '${PORT}:${PORT}'
+    env_file:
+      - .env
+    volumes:
+      - ./src:/usr/app/src
+
+  db:
+    image: mariadb
+    ports:
+      - '${MYSQL_PORT}:3306'
+    command: --max_allowed_packet=999M
+    env_file:
+      - .env
+    volumes:
+      - mariadb-data:/var/lib/mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    expose:
+      - ${MYSQL_PORT}
+
+volumes:
+  mariadb-data:

@@ -25,4 +25,5 @@ function runCoverage() {
 }
 
 const code = runCoverage();
+
 process.exit(code);

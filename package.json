@@ -1,14 +1,15 @@
 {
   "name": "node-express-typescript-bp",
   "description": "Boilerplate based on Node.js, Express, TypeScript, Sequelize",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Edgar Sargsyan",
   "repository": "https://github.com/cyber-eternal/express-typescript-boilerplate",
   "license": "MIT",
   "scripts": {
+    "apidoc": "npx apidoc -i src/ -o dist/doc/",
     "prebuild": "rm -rf ./dist && mkdir dist",
-    "build": "yarn prebuild && tsc",
-    "start": "yarn build && NODE_PATH=./dist node ./src/bin/www",
+    "build": "yarn prebuild && tsc && yarn apidoc",
+    "start": "yarn build && yarn apidoc && NODE_PATH=./dist node ./src/bin/www",
     "dev": "NODE_PATH=./dist nodemon -e ts,js -w src --exec 'tsc --sourceMap && node --inspect ./src/bin/www'",
     "test": "jest",
     "lint:ts": "eslint \"src/**/*.{ts,js,json}\"",
@@ -37,7 +38,9 @@
     ]
   },
   "dependencies": {
+    "@types/apidoc": "^0.22.2",
     "@types/bunyan": "^1.8.6",
+    "apidoc": "^0.28.1",
     "body-parser": "1.19.0",
     "bunyan": "^1.8.15",
     "cookie-parser": "1.4.5",
@@ -86,5 +89,10 @@
     "hooks": {
       "pre-push": "yarn audit"
     }
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "./doc"
+    ]
   }
 }

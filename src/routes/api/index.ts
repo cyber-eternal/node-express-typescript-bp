@@ -7,7 +7,7 @@ const router = Router();
 // Service API
 
 /**
- * @api {get} /health Request Health information
+ * @api {get} /api/v1/health Request Health information
  * @apiVersion 0.0.0
  * @apiName GetHealth
  * @apiDescription Provides health of the service.
